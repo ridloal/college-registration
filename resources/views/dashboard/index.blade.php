@@ -35,7 +35,7 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h3 class="text-lg font-semibold mb-2">Faculty</h3>
                         <p class="text-gray-600">Manage faculties.</p>
-                        <a href="#" class="mt-4 text-center block bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                        <a href="{{ route('faculty.index') }}" class="mt-4 text-center block bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
                             Faculties
                         </a>
                     </div>
@@ -46,7 +46,7 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h3 class="text-lg font-semibold mb-2">Settings</h3>
                         <p class="text-gray-600">Manage system settings</p>
-                        <a href="#" class="mt-4 text-center block bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                        <a href="{{ route('settings.index') }}" class="mt-4 text-center block bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
                             Settings
                         </a>
                     </div>
