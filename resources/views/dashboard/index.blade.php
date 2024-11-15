@@ -13,7 +13,7 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h3 class="text-lg font-semibold mb-2">Registration</h3>
                         <p class="text-gray-600">Manage student registrations</p>
-                        <a href="#" class="mt-4 text-center block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        <a href="{{ route('registration.index') }}" class="mt-4 text-center block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                             Registrations
                         </a>
                     </div>
