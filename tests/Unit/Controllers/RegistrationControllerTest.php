@@ -5,6 +5,7 @@ namespace Tests\Unit\Controllers;
 use App\Models\Faculty;
 use App\Models\Setting;
 use App\Models\Student;
+use App\Models\User;
 use App\Services\Notifications\INotificationService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -38,6 +39,13 @@ class RegistrationControllerTest extends TestCase
 
         // Create faculty
         $this->faculty = Faculty::factory()->create();
+
+        // Authenticate user
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Disable middleware
+        $this->withoutMiddleware();
     }
 
     public function test_cannot_register_outside_registration_period(): void
