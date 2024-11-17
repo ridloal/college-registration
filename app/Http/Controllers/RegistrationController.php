@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\Student;
 use App\Models\Faculty;
+use App\Services\Notifications\INotificationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class RegistrationController extends Controller
 {
+    public function __construct(
+        private INotificationService $notificationService
+    ) {}
+
     public function index()
     {
         $faculties = Faculty::all();
@@ -19,9 +24,11 @@ class RegistrationController extends Controller
 
     public function store(RegistrationRequest $request)
     {
-        DB::transaction(function () use ($request) {
+        $student = null;
+
+        DB::transaction(function () use ($request, &$student) {
             // Create new student
-            Student::create([
+            $student = Student::create([
                 'id' => Str::uuid(),
                 'nomor_induk' => $this->generateNomorInduk($request->faculty_id),
                 'name' => $request->name,
@@ -34,6 +41,19 @@ class RegistrationController extends Controller
                 'science_score' => $request->science_score,
             ]);
         });
+
+        // Send notification
+        if ($student) {
+            try {
+                $this->notificationService->sendRegistrationNotification($student);
+            } catch (\Exception $e) {
+                Log::error('Registration notification failed', [
+                    'student_id' => $student->id,
+                    'error' => $e->getMessage()
+                ]);
+                // Continue with registration process even if notification fails
+            }
+        }
 
         return redirect()->route('registration.index')
             ->with('success', 'Registration submitted successfully! We will review your application.');
