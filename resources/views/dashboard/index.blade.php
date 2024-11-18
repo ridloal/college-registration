@@ -51,6 +51,28 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Student Top GPA -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <h3 class="text-lg font-semibold mb-2">Student Top GPA</h3>
+                        <p class="text-gray-600">List of top 5 Student by GPA</p>
+                        <a href="{{ route('student.top-gpa') }}" class="mt-4 text-center block bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+                            View List
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Student Top Rank GPA -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <h3 class="text-lg font-semibold mb-2">Student Rank</h3>
+                        <p class="text-gray-600">List Table of top 10% Student</p>
+                        <a href="{{ route('student.top-rank-gpa') }}" class="mt-4 text-center block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                            View List
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

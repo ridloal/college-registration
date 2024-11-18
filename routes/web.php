@@ -29,6 +29,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/registration', [RegistrationController::class, 'store'])->name('registration.store');
 
     Route::get('/student', [StudentController::class, 'index'])->name('student.index');
+    Route::get('/student/top-gpa', [StudentController::class, 'topGPA'])->name('student.top-gpa');
+    Route::get('/student/top-rank-gpa', [StudentController::class, 'topRankGPA'])->name('student.top-rank-gpa');
 });
 
 require __DIR__.'/auth.php';
