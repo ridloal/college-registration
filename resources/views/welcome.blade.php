@@ -31,12 +31,22 @@
                         @if (Route::has('login'))
                             <nav class="-mx-3 flex flex-1 justify-end">
                                 @auth
-                                    <a
-                                        href="{{ url('/dashboard') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Dashboard
-                                    </a>
+                                    <!-- check auth role is admin or student -->
+                                    @if (Auth::user()->role == 'student')
+                                        <a
+                                            href="{{ url('/student-dashboard') }}"
+                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        >
+                                            Student Dashboard
+                                        </a>
+                                    @else
+                                        <a
+                                            href="{{ url('/dashboard') }}"
+                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        >
+                                            Admin Dashboard
+                                        </a>
+                                    @endif
                                 @else
                                     <a
                                         href="{{ route('login') }}"
@@ -59,7 +69,10 @@
                     </header>
 
                     <main class="mt-6">
-                        
+                        <!-- add big button to route registration with button title "OPEN REGISTRATION FORM" -->
+                        <a
+                            href="{{ route('registration.index') }}"
+                            class="block w-full px-6 py-3 text-center bg-blue-500 text-white rounded-lg shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] transition hover:shadow-[0px_14px_34px_0px_rgba(0,0,0,0.25)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:bg-blue-700 dark:hover:shadow-[0px_14px_34px_rgba(0,0,0,0.25)] dark:focus-visible:ring-white">Open Registration Form</a>
                     </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
