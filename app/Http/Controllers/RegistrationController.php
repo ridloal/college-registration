@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class RegistrationController extends Controller
 {
@@ -20,7 +21,9 @@ class RegistrationController extends Controller
 
     public function index()
     {
-        $faculties = Faculty::all();
+        $faculties = Cache::remember('faculties', 3600, function () {
+            return Faculty::all();
+        });
         return view('registration.index', compact('faculties'));
     }
 

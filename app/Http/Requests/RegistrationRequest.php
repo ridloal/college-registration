@@ -6,6 +6,7 @@ use App\Models\Setting;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Cache;
 
 class RegistrationRequest extends FormRequest
 {
@@ -16,7 +17,9 @@ class RegistrationRequest extends FormRequest
 
     public function rules(): array
     {
-        $settings = Setting::first();
+        $settings = Cache::remember('settings', 3600, function () {
+            return Setting::first();
+        });
         
         return [
             'name' => 'required|string|max:255',
@@ -32,7 +35,9 @@ class RegistrationRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $settings = Setting::first();
+            $settings = Cache::remember('settings', 3600, function () {
+                return Setting::first();
+            });
             $now = Carbon::now();
             
             // Check registration period
@@ -59,7 +64,9 @@ class RegistrationRequest extends FormRequest
 
     public function messages(): array
     {
-        $settings = Setting::first();
+        $settings = Cache::remember('settings', 3600, function () {
+            return Setting::first();
+        });
         
         return [
             'math_score.min' => 'Math score must be at least ' . $settings->min_math_score . '.',
