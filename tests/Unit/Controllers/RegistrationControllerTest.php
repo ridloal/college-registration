@@ -197,4 +197,23 @@ class RegistrationControllerTest extends TestCase
         $nomor_induks = Student::pluck('nomor_induk')->toArray();
         $this->assertEquals(count($nomor_induks), count(array_unique($nomor_induks)));
     }
+
+    public function test_sql_injection_protection(): void
+    {
+        Carbon::setTestNow('2024-12-01');
+
+        $response = $this->postJson('/registration', [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'phone' => '1234567890',
+            'faculty_id' => $this->faculty->id,
+            'major_study' => 'Computer Science',
+            'math_score' => '85; DROP TABLE students;', // Attempt SQL injection
+            'science_score' => 85,
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['math_score' => 'The math score field must be a number.']);
+    }
+
 }
