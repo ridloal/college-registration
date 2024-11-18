@@ -15,7 +15,7 @@ class StudentFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'nomor_induk' => fake()->unique()->numerify('2024####'),
+            'nomor_induk' => fake()->unique()->numerify('2024#######'),
             'name' => fake()->name(),
             'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
