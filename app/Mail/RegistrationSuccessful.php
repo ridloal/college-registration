@@ -14,7 +14,8 @@ class RegistrationSuccessful extends Mailable
     use Queueable, SerializesModels;
 
     public function __construct(
-        public Student $student
+        public Student $student,
+        public string $password
     ) {}
 
     public function envelope(): Envelope
@@ -33,6 +34,8 @@ class RegistrationSuccessful extends Mailable
                 'studentId' => $this->student->nomor_induk,
                 'faculty' => $this->student->faculty->name,
                 'majorStudy' => $this->student->major_study,
+                'email' => $this->student->email,
+                'password' => $this->password,
             ],
         );
     }

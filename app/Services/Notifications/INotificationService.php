@@ -6,5 +6,5 @@ use App\Models\Student;
 
 interface INotificationService
 {
-    public function sendRegistrationNotification(Student $student): void;
+    public function sendRegistrationNotification(Student $student, string $password): void;
 }

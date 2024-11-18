@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\Student;
 use App\Models\Faculty;
+use App\Models\User;
 use App\Services\Notifications\INotificationService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -25,8 +27,9 @@ class RegistrationController extends Controller
     public function store(RegistrationRequest $request)
     {
         $student = null;
+        $password = '';
 
-        DB::transaction(function () use ($request, &$student) {
+        DB::transaction(function () use ($request, &$student, &$password) {
             // Create new student
             $student = Student::create([
                 'id' => Str::uuid(),
@@ -40,12 +43,15 @@ class RegistrationController extends Controller
                 'math_score' => $request->math_score,
                 'science_score' => $request->science_score,
             ]);
-        });
 
+            $password = $this->createUserCredentials($student);
+
+        });
+        
         // Send notification
         if ($student) {
             try {
-                $this->notificationService->sendRegistrationNotification($student);
+                $this->notificationService->sendRegistrationNotification($student, $password);
             } catch (\Exception $e) {
                 Log::error('Registration notification failed', [
                     'student_id' => $student->id,
@@ -59,7 +65,7 @@ class RegistrationController extends Controller
             ->with('success', 'Registration submitted successfully! We will review your application.');
     }
 
-    function generateNomorInduk($faculty_id)
+    private function generateNomorInduk($faculty_id)
     {
         $maxRetries = 5;
         $attempts = 0;
@@ -82,6 +88,25 @@ class RegistrationController extends Controller
                 // Optional: Add a short delay before retrying
                 usleep(100000); // 100ms
             }
+        }
+    }
+
+    private function createUserCredentials(Student $student): string
+    {
+        $password = Str::random(8);
+        // Create user credentials
+        $user =  User::create([
+            'student_id' => $student->id,
+            'name' => $student->name,
+            'email' => $student->email,
+            'password' => Hash::make($password),
+            'role' => 'student',
+        ]);
+        
+        if($user) {
+            return $password;
+        } else {
+            throw new \Exception('Failed to create user credentials');
         }
     }
 }

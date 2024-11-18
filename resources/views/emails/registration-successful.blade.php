@@ -16,6 +16,13 @@
             <li>Faculty: {{ $faculty }}</li>
             <li>Major: {{ $majorStudy }}</li>
         </ul>
+
+        <h3>You can login with credential below :</h3>
+
+        <ul>
+            <li>Email: {{ $email }}</li>
+            <li>Password: {{ $password }}</li>
+        </ul>
         
         <p>We will review your application and notify you of any updates.</p>
         
