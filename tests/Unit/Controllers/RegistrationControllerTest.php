@@ -22,6 +22,9 @@ class RegistrationControllerTest extends TestCase
     {
         parent::setUp();
 
+        // Create fresh schema for each test
+        $this->artisan('migrate');
+
         // Mock notification service
         $this->mock(INotificationService::class, function ($mock) {
             $mock->shouldReceive('sendRegistrationNotification')->andReturn(null);

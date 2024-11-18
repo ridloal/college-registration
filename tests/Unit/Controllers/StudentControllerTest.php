@@ -20,6 +20,9 @@ class StudentControllerTest extends TestCase
     {
         parent::setUp();
 
+        // Create fresh schema for each test
+        $this->artisan('migrate');
+
         // Create faculty
         $this->faculty = Faculty::factory()->create([
             'faculty_code' => 'CS'
