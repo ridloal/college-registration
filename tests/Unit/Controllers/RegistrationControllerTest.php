@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\Notifications\INotificationService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class RegistrationControllerTest extends TestCase
@@ -219,4 +220,30 @@ class RegistrationControllerTest extends TestCase
         $response->assertJsonValidationErrors(['math_score' => 'The math score field must be a number.']);
     }
 
+    public function test_settings_are_cached(): void
+    {
+        // Clear cache before test
+        Cache::forget('settings');
+
+        // Trigger cache population
+        $this->get(route('settings.index'));
+
+        // Check if settings are cached
+        $cachedSettings = Cache::get('settings');
+        $this->assertNotNull($cachedSettings);
+    }
+
+    public function test_faculties_are_cached(): void
+    {
+        // Clear cache before test
+        Cache::forget('faculties');
+
+        // Trigger cache population
+        $this->get(route('registration.index'));
+
+        // Check if faculties are cached
+        $cachedFaculties = Cache::get('faculties');
+        $this->assertNotNull($cachedFaculties);
+        $this->assertCount(Faculty::count(), $cachedFaculties);
+    }
 }
