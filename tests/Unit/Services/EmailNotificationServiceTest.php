@@ -26,7 +26,7 @@ class EmailNotificationServiceTest extends TestCase
         ]);
 
         $service = new EmailNotificationService();
-        $service->sendRegistrationNotification($student);
+        $service->sendRegistrationNotification($student, 'password');
 
         Mail::assertSent(RegistrationSuccessful::class, function ($mail) use ($student) {
             return $mail->student->id === $student->id &&
@@ -49,6 +49,6 @@ class EmailNotificationServiceTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $service->sendRegistrationNotification($student);
+        $service->sendRegistrationNotification($student, 'password');
     }
 }

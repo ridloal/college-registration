@@ -64,6 +64,11 @@ Run the following commands in separate terminal windows:
 ### 8. Access the Application
 Open your browser and visit http://127.0.0.1:8000 to view the application.
 
+## How To Run Unit Test
+Make sure you have activated extension `pdo_sqlite` and `sqlite3` on php.ini
+run below command in root of directory project
+    php artisan test
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
